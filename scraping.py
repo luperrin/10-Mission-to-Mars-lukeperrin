@@ -9,6 +9,7 @@ import re
 
 
 def mars_news(browser):
+    print("Scraping Mars News")
     # Scrape Mars News
     # Visit the mars nasa news site
     url = 'https://redplanetscience.com/'
@@ -38,6 +39,7 @@ def mars_news(browser):
 # ## JPL Space Images Featured Image
 
 def featured_image(browser):
+    print("Scraping featured image")
     # Visit URL
     url = 'https://spaceimages-mars.com'
     browser.visit(url)
@@ -65,14 +67,15 @@ def featured_image(browser):
 
 # ## Mars Facts
 
-def mars_facts(browser):
+def mars_facts():
+    print("Scraping Mars facts")
     # Add try/except for error handling
-    try:
-        # Use 'read_html' to scrape the facts table into a dataframe
-        df = pd.read_html('https://galaxyfacts-mars.com')[0]
-
-    except BaseException:
-        return None
+    # try:
+    #     # Use 'read_html' to scrape the facts table into a dataframe
+    df = pd.read_html('https://galaxyfacts-mars.com')[0]
+    #     print(df.head())
+    # except BaseException:
+    #     return None
 
     # Assign columns and set index of dataframe
     df.columns=['Description', 'Mars', 'Earth']
@@ -83,6 +86,7 @@ def mars_facts(browser):
 
 
 def hemispheres(browser):
+    print("Scraping Mars hemispheres")
     url = 'https://marshemispheres.com/'
     browser.visit(url)
     html = browser.html
@@ -107,10 +111,10 @@ def hemispheres(browser):
 
 
 def scrape_all():
+    print("Beginning Scrape all function")
     # Initiate headless driver for deployment
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=True)
-
     news_title, news_paragraph = mars_news(browser)
     hemisphere_image_urls = hemispheres(browser)
     # Run all scraping functions and store results in dictionary
@@ -118,7 +122,7 @@ def scrape_all():
         "news_title": news_title,
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
-        "facts": mars_facts(browser),
+        "facts": mars_facts(),
         "hemispheres": hemisphere_image_urls,
         "last_modified": dt.datetime.now()
     }
